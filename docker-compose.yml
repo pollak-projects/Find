@@ -4,7 +4,7 @@ services:
   findv4:
     # Portainer Stack használatakor cseréld ki a felh.nevet a GitHub fiókodra:
     # Cseréld ki pl.: ghcr.io/fekeandras/find:latest
-    image: ghcr.io/YOUR_GITHUB_USERNAME/findv4:latest
+    image: ghcr.io/pollak-projects/findv4:latest
     container_name: findv4-app
     restart: unless-stopped
     ports:
