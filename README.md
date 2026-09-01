@@ -72,3 +72,40 @@ npm run build
 # Preview production build
 npm run preview
 ```
+
+---
+
+## Docker & Portainer Deployment
+
+### 1. Local Docker Build & Test
+
+```bash
+# Build the Docker image locally
+docker build -t findv4:latest .
+
+# Run container on port 8080
+docker run -d -p 8080:80 --name findv4 findv4:latest
+```
+
+### 2. GitHub Actions CI/CD Pipeline
+
+A GitHub Action is configured in `.github/workflows/docker-build-push.yml`.
+When code is pushed to `main` / `master` (or a release tag `v*` is created), GitHub Actions automatically:
+1. Builds the Vite React application inside a Docker container.
+2. Pushes the Docker image to **GitHub Container Registry (`ghcr.io`)**:
+   `ghcr.io/<YOUR_GITHUB_USERNAME>/<REPO_NAME>:latest`
+
+### 3. Running in Portainer
+
+1. **Add Registry in Portainer (if private)**:
+   - Go to **Registries** ➔ **Add registry**.
+   - Select **Custom registry**.
+   - Registry URL: `ghcr.io`
+   - Authentication: Use your GitHub username and a GitHub Personal Access Token (PAT with `read:packages` permission).
+
+2. **Deploy Stack in Portainer**:
+   - Go to **Stacks** ➔ **Add stack**.
+   - Select **Repository** (link this git repo) or paste the contents of `docker-compose.yml` into the **Web editor**.
+   - Update `image:` to match your repository (e.g., `ghcr.io/username/find:latest`).
+   - Click **Deploy the stack**.
+
